@@ -2,20 +2,20 @@ require "active_record"
 
 class Todo < ActiveRecord::Base
   def self.overdue
-    all.where("due_date < ?", Date.today)
+    where("due_date < ?", Date.today)
   end
 
   def self.due_today
-    all.where("due_date = ?", Date.today)
+    where("due_date = ?", Date.today)
   end
 
   def self.due_later
-    all.where("due_date > ?", Date.today)
+    where("due_date > ?", Date.today)
   end
 
   # This function takes an array of Todo and convert it as a printable string
-  def self.to_displayable_list(todos)
-    todos.map { |todo| todo.to_displayable_string }.join("\n")
+  def self.to_displayable_list
+    all.map { |todo| todo.to_displayable_string }.join("\n")
   end
 
   def to_displayable_string
@@ -29,15 +29,15 @@ class Todo < ActiveRecord::Base
 
     puts "Overdue\n"
     # array of todos received after calling the class method overdue it is sent as a parameter to to_displayable_list it will return a printable string.
-    puts to_displayable_list(overdue)
+    puts overdue.to_displayable_list
     puts "\n\n"
 
     puts "Due Today\n"
-    puts to_displayable_list(due_today)
+    puts due_today.to_displayable_list
     puts "\n\n"
 
     puts "Due Later\n"
-    puts to_displayable_list(due_later)
+    puts due_later.to_displayable_list
     puts "\n\n"
   end
 
